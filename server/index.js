@@ -3,6 +3,7 @@ import { Server } from "socket.io"
 import http from 'http'
 import { PORT } from "./config.js"
 import cors from 'cors'
+import v1Router from './v1/routes/roomRoutes.js'
 
 // Express application
 const app = express();
@@ -12,11 +13,12 @@ const server = http.createServer(app);
 // Allow cors to server http://localhost:5173 (React Client)
 const io = new Server(server, {
   cors: {
-    origin: `${process.env.CLIENT_URL}:${process.env.CLIENT_PORT}`,
+    origin: '*'
   }
 });
 
 app.use(cors());
+app.use('/', v1Router)
 
 let rooms = [];
 
